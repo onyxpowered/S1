@@ -1196,22 +1196,36 @@ const Sync = {
     this.setStatus('connecting');
     try {
       await loadScript(`https://www.gstatic.com/firebasejs/${FB_VERSION}/firebase-app-compat.js`);
+      await loadScript(`https://www.gstatic.com/firebasejs/${FB_VERSION}/firebase-auth-compat.js`);
       await loadScript(`https://www.gstatic.com/firebasejs/${FB_VERSION}/firebase-firestore-compat.js`);
       this.teardown();
       const clean = {}; for (const k of ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId']) if (cfg[k]) clean[k] = cfg[k].trim();
       const name = 'chalant-' + hashStr(JSON.stringify(clean));
       let app = window.firebase.apps.find(a => a.name === name);
       if (!app) app = window.firebase.initializeApp(clean, name);
-      this.app = app; this.db = app.firestore();
+      this.app = app;
+      await this.signIn(app);
+      this.db = app.firestore();
       await this.initialMerge();
       this.listen();
       S.sync.enabled = true; save();
       this.setStatus(navigator.onLine ? 'synced' : 'offline');
     } catch (err) {
       this.teardown();
-      this.setStatus('error', err.message || String(err));
-      throw err;
+      const msg = friendlyFirebaseError(err);
+      this.setStatus('error', msg);
+      throw new Error(msg);
     }
+  },
+  /* Anonymous Auth: lets Firestore rules require `request.auth != null`. */
+  async signIn(app) {
+    if (!app.auth) return;
+    const auth = app.auth();
+    const P = window.firebase.auth.Auth.Persistence;
+    try { await auth.setPersistence(P.LOCAL); } catch (e) { try { await auth.setPersistence(P.NONE); } catch (e2) { } }
+    const existing = await new Promise(res => { const off = auth.onAuthStateChanged(u => { off(); res(u); }); });
+    const user = existing || (await auth.signInAnonymously()).user;
+    this.uid = user.uid;
   },
   teardown() { this.unsubs.forEach(u => { try { u(); } catch (e) { } }); this.unsubs = []; this.db = null; this.app = null; },
   disconnect() { this.teardown(); S.sync.enabled = false; save(); this.setStatus('local'); },
@@ -1321,6 +1335,16 @@ const Sync = {
 };
 window.addEventListener('online', () => { if (Sync.on) { Sync.setStatus('syncing'); Sync.flush(); } });
 window.addEventListener('offline', () => { if (Sync.on) Sync.setStatus('offline'); });
+function friendlyFirebaseError(err) {
+  const code = (err && err.code) || '', m = (err && err.message) || String(err);
+  if (/operation-not-allowed|admin-restricted-operation/.test(code)) return 'Anonymous sign-in is disabled. Enable it in Firebase console → Authentication → Sign-in method → Anonymous.';
+  if (/api-key-not-valid|invalid-api-key/.test(code + m)) return 'The apiKey is not valid for this project. Re-copy the firebaseConfig from Project settings → Your apps.';
+  if (/requests-from-referer|referer/i.test(code + m)) return 'This API key is restricted by HTTP referrer, and file:// pages send none. Allow the key without referrer restrictions, or open the app from http://localhost.';
+  if (/permission-denied|insufficient permissions/i.test(code + m)) return 'Firestore denied access. Publish the security rules shown below (Firestore → Rules).';
+  if (/client is offline|unavailable|NOT_FOUND|does not exist/i.test(code + m)) return 'Could not reach Cloud Firestore. Check that a Firestore database has been created for this projectId (Firestore → Create database) and that you are online.';
+  if (/network-request-failed/.test(code)) return 'Network request failed — check your connection or any ad/tracker blocker.';
+  return m;
+}
 const SYNC_LABEL = { local: 'Saved locally', connecting: 'Connecting to Firestore…', synced: 'Synced with Firestore', syncing: 'Syncing…', error: 'Sync error', offline: 'Offline — changes queued' };
 
 /* =========================================================================
@@ -3433,7 +3457,7 @@ function openSearch() {
    Settings modal (account, appearance, Firebase sync, data)
    ========================================================================= */
 function syncStatusEl() {
-  return h(`<div class="status-line" id="fb-status"><span class="sync-dot ${Sync.status}"></span><span><b style="font-weight:500;color:var(--text)">${esc(SYNC_LABEL[Sync.status])}</b>${Sync.error ? ` — <span style="color:var(--red)">${esc(Sync.error)}</span>` : Sync.on ? ` · workspace <code style="font-family:var(--font-mono);font-size:12px">${esc(S.sync.workspaceId)}</code>` : ' · data lives in this browser’s LocalStorage'}</span></div>`);
+  return h(`<div class="status-line" id="fb-status"><span class="sync-dot ${Sync.status}"></span><span><b style="font-weight:500;color:var(--text)">${esc(SYNC_LABEL[Sync.status])}</b>${Sync.error ? ` — <span style="color:var(--red)">${esc(Sync.error)}</span>` : Sync.on ? ` · workspace <code style="font-family:var(--font-mono);font-size:12px">${esc(S.sync.workspaceId)}</code>${Sync.uid ? ` · anonymous user <code style="font-family:var(--font-mono);font-size:12px">${esc(Sync.uid.slice(0, 8))}…</code>` : ''}` : ' · data lives in this browser’s LocalStorage'}</span></div>`);
 }
 function openSettings(section = 'account') {
   closeAllPops();
@@ -3478,15 +3502,16 @@ function openSettings(section = 'account') {
         <div class="btn-row"><button class="btn-blue" data-a="connect">${I.cloud}${Sync.on ? 'Reconnect' : 'Connect & sync'}</button>${Sync.on ? `<button class="btn" data-a="push">${I.upload}Push all local data</button><button class="btn danger" data-a="disconnect">Disconnect</button>` : ''}<button class="btn" data-a="clear">Clear credentials</button></div>
         <div data-status></div>
         <h3>Firestore security rules</h3>
-        <p style="color:var(--text-3);font-size:12.5px;margin:4px 0 0">Data is stored under <code>workspaces/{workspaceId}/pages</code> and <code>/threads</code>. For a quick start, allow access to that path (lock it down with Firebase Auth before going public):</p>
+        <p style="color:var(--text-3);font-size:12.5px;margin:4px 0 0;line-height:1.55">S1 signs in with <b>Anonymous Auth</b> before syncing, so rules can require a signed-in user. Data lives under <code>workspaces/{workspaceId}/pages</code> and <code>/threads</code>. Paste this into Firestore → Rules and publish:</p>
         <div class="code-note">rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /workspaces/{ws}/{document=**} {
-      allow read, write: if true; // ⚠️ development only
+      allow read, write: if request.auth != null;
     }
   }
-}</div>`;
+}</div>
+        <p style="color:var(--text-3);font-size:12.5px;margin:10px 0 0;line-height:1.55">Anyone who has your config and workspace ID can sign in anonymously and read that workspace, so pick an unguessable workspace ID.</p>`;
       body.querySelector('[data-status]').appendChild(syncStatusEl());
       $$('[data-cfg]', body).forEach(i => i.addEventListener('input', () => { S.sync.config[i.dataset.cfg] = i.value.trim(); save(); }));
       body.querySelector('[data-ws]').addEventListener('input', e => { S.sync.workspaceId = e.target.value.trim() || 'chalant-s1'; save(); });
