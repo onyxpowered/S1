@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=1024">
 <meta name="color-scheme" content="light dark">
 <title>A1</title>
 <style>
+
 :root{
   --bg:#ffffff;--bg2:#f5f5f7;--bg3:#e8e8ed;--fg:#1d1d1f;--fg2:#6e6e73;--fg3:#a1a1a6;
   --line:rgba(0,0,0,.08);--line2:rgba(0,0,0,.14);--hover:rgba(0,0,0,.04);--sel:rgba(0,0,0,.065);
@@ -41,7 +42,8 @@ svg{display:block}
 .avatar.group{background:none}
 .avatar.group span{position:absolute;border-radius:50%;background:var(--avatar);color:var(--avatar-fg);display:grid;place-items:center;font-weight:600;box-shadow:0 0 0 2px var(--bg)}
 
-#app{height:100%;display:flex}
+#app{height:100%;display:flex;min-width:860px}
+html,body{min-width:860px}
 
 .center{flex:1;display:grid;place-items:center;padding:24px;overflow:auto}
 .auth{width:100%;max-width:340px;text-align:center}
@@ -58,9 +60,11 @@ svg{display:block}
 .auth .forgot{margin-top:14px;font-size:13px;color:var(--fg2)}
 .notice{max-width:460px;text-align:center}
 .notice p{color:var(--fg2);margin-top:10px}
+.notice h2{font-size:17px;font-weight:600;margin-top:10px;color:var(--fg)}
+.notice .pill{margin-top:22px}
 .notice code{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:13px;background:var(--bg2);padding:2px 6px;border-radius:6px;color:var(--fg)}
 
-.side{width:340px;flex:none;display:flex;flex-direction:column;border-right:1px solid var(--line);background:var(--bg);min-height:0}
+.side{width:320px;flex:none;display:flex;flex-direction:column;border-right:1px solid var(--line);background:var(--bg);min-height:0}
 .side-head{padding:14px 14px 8px;display:flex;align-items:center;gap:6px}
 .side-head h1{flex:1;font-size:26px;font-weight:700;letter-spacing:-.025em;padding-left:4px}
 .me-btn{width:34px;height:34px;border-radius:50%;display:grid;place-items:center}
@@ -82,6 +86,7 @@ svg{display:block}
 .item.unread .preview{color:var(--fg)}
 .empty{padding:48px 24px;text-align:center;color:var(--fg2)}
 .empty b{display:block;color:var(--fg);font-size:17px;margin-bottom:6px;font-weight:600}
+.pill{width:auto;padding:0 20px;height:38px;font-size:15px;border-radius:19px}
 .empty .primary{width:auto;padding:0 20px;height:38px;font-size:15px;margin-top:18px;border-radius:19px}
 
 .main{flex:1;min-width:0;display:flex;flex-direction:column;position:relative;background:var(--bg)}
@@ -92,7 +97,7 @@ svg{display:block}
 .chead .who .n{font-size:12px;font-weight:500;display:flex;align-items:center;gap:2px;max-width:100%}
 .chead .who .n span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chead .who .n .icon{width:11px;height:11px;color:var(--fg3);flex:none}
-.chead .back{visibility:hidden}
+.chead .who .s{font-size:11px;color:var(--fg2);margin-top:-2px}
 .chead .info{justify-self:end}
 
 .msgs{flex:1;overflow-y:auto;padding:86px 16px 12px;display:flex;flex-direction:column}
@@ -104,7 +109,7 @@ svg{display:block}
 .row.first{margin-top:10px}
 .row.me{justify-content:flex-end}
 .row .av{width:28px;flex:none}
-.stack{display:flex;flex-direction:column;max-width:min(72%,560px);min-width:0}
+.stack{display:flex;flex-direction:column;max-width:min(62%,560px);min-width:0}
 .row.me .stack{align-items:flex-end}
 .row.them .stack{align-items:flex-start}
 .sender{font-size:11.5px;color:var(--fg2);margin:0 12px 2px}
@@ -131,13 +136,15 @@ svg{display:block}
 .react.mine{background:var(--fg);color:var(--bg)}
 .react svg{width:13px;height:13px}
 .row.has-react{margin-top:16px}
-.more{opacity:0;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:var(--fg2);align-self:center;flex:none;transition:opacity .12s}
-.more .icon{width:16px;height:16px}
-.more:hover{background:var(--hover)}
-.row:hover .more{opacity:1}
-.row.me .more{order:-1}
+.acts{display:flex;gap:2px;opacity:0;align-self:center;flex:none;transition:opacity .12s}
+.acts button{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:var(--fg2)}
+.acts .icon{width:15px;height:15px}
+.acts button:hover{background:var(--hover);color:var(--fg)}
+.row:hover .acts{opacity:1}
+.row.me .acts{order:-1}
 .flash .bubble{transform:scale(1.04)}
 .typing{display:flex;gap:4px;padding:12px 14px;border-radius:19px;background:var(--them);width:max-content;margin:10px 0 2px 36px}
+.typing.flush{margin-left:0}
 .typing i{width:7px;height:7px;border-radius:50%;background:var(--fg2);animation:blink 1.2s infinite}
 .typing i:nth-child(2){animation-delay:.2s}
 .typing i:nth-child(3){animation-delay:.4s}
@@ -178,7 +185,7 @@ svg{display:block}
 .gname input{flex:1;height:30px}
 .section{font-size:12px;font-weight:600;color:var(--fg2);text-transform:uppercase;letter-spacing:.04em;padding:14px 16px 6px}
 .person{display:flex;align-items:center;gap:12px;padding:8px 16px;cursor:pointer}
-.person:hover{background:var(--hover)}
+.person:hover,.person.cur{background:var(--hover)}
 .person .t{flex:1;min-width:0}
 .person .t div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .person .t .s{font-size:13px;color:var(--fg2)}
@@ -230,53 +237,57 @@ button.cell:hover{background:var(--hover)}
 @keyframes rise{from{opacity:0;transform:translate(-50%,8px)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-@media (max-width:760px){
-  .side{width:100%;border-right:0}
-  .main{display:none}
-  body.in-chat .side{display:none}
-  body.in-chat .main{display:flex}
-  .chead .back{visibility:visible}
-  .stack{max-width:80%}
-  .more{display:none}
-  .scrim{place-items:end center;padding:0}
-  .sheet{max-width:none;border-radius:16px 16px 0 0;max-height:92dvh;animation:slide .28s cubic-bezier(.2,.9,.3,1)}
-  @keyframes slide{from{transform:translateY(100%)}}
-}
+.avatar .pres{position:absolute;right:-1px;bottom:-1px;width:28%;height:28%;min-width:9px;min-height:9px;border-radius:50%;background:var(--fg);box-shadow:0 0 0 2.5px var(--bg)}
+.item.active .avatar .pres{box-shadow:0 0 0 2.5px var(--bg)}
+.field.handle{display:flex;align-items:center;gap:2px;cursor:text}
+.field.handle span{color:var(--fg2)}
+.field.handle input{flex:1;height:100%;font-size:16px}
+.field.handle:focus-within{border-color:var(--line2);background:var(--bg)}
+kbd{font-family:var(--font);font-size:11px;font-weight:500;color:var(--fg2);border:1px solid var(--line2);border-radius:5px;padding:1px 5px;margin-left:4px;line-height:1.4}
+.search kbd{opacity:.8}
+.search:focus-within kbd{display:none}
+.keys .cell{padding:9px 14px;font-size:14px}
+.foot{font-size:12px;color:var(--fg2);text-align:center;padding:10px 28px 20px;line-height:1.45}
+.person .t .s:empty{display:none}
+.cell .s:empty{display:none}
+.main .placeholder{font-size:14px}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
 <script>
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: ""
+  apiKey: "AIzaSyB4lnS0OEekwSwsSA2wjckPKYhZx2w7nlk",
+  authDomain: "a1service-d29d2.firebaseapp.com",
+  databaseURL: "https://a1service-d29d2-default-rtdb.firebaseio.com",
+  projectId: "a1service-d29d2",
+  storageBucket: "a1service-d29d2.firebasestorage.app",
+  messagingSenderId: "1043251337895",
+  appId: "1:1043251337895:web:6d44fcbb4468012f6d1982"
 };
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const ms = v => !v ? 0 : typeof v === 'number' ? v : v.toMillis ? v.toMillis() : v.seconds ? v.seconds * 1000 : 0;
+const ms = v => typeof v === 'number' ? v : 0;
 const firstName = n => String(n || '').trim().split(/\s+/)[0] || '';
 const initials = n => { const p = String(n || '?').trim().split(/\s+/).filter(Boolean); return ((p[0]?.[0] || '?') + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase(); };
 const clip = (s, n = 80) => { s = String(s || '').replace(/\s+/g, ' ').trim(); return s.length > n ? s.slice(0, n - 1) + '…' : s; };
+const keys = o => Object.keys(o || {});
+const MAC = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+const MOD = MAC ? '⌘' : 'Ctrl+', ALT = MAC ? '⌥' : 'Alt+';
 
 const ICONS = {
   compose: '<path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.4 2.6a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4Z"/>',
   search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
-  back: '<path d="m15 18-6-6 6-6"/>',
   chevron: '<path d="m9 18 6-6-6-6"/>',
   info: '<circle cx="12" cy="12" r="9.5"/><path d="M12 16v-4.5"/><path d="M12 8h.01"/>',
   up: '<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>',
   x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
   check: '<path d="M20 6 9 17l-5-5"/>',
-  plus: '<path d="M12 5v14"/><path d="M5 12h14"/>',
   reply: '<path d="m9 17-5-5 5-5"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/>',
   copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
   edit: '<path d="M18.4 2.6a2.1 2.1 0 0 1 3 3L7 20l-4 1 1-4Z"/>',
@@ -284,10 +295,9 @@ const ICONS = {
   dots: '<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>',
   leave: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>',
   users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
-  addUser: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/>',
-  mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>'
+  addUser: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/>'
 };
-const icon = (n, cls = 'icon') => `<svg class="${cls}" viewBox="0 0 24 24">${ICONS[n]}</svg>`;
+const icon = n => `<svg class="icon" viewBox="0 0 24 24">${ICONS[n]}</svg>`;
 
 const THUMB = '<path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/>';
 const TAPBACKS = [
@@ -300,29 +310,33 @@ const TAPBACKS = [
 ];
 const TB = Object.fromEntries(TAPBACKS);
 
-function avatarHTML(name, size = 40) {
-  return `<div class="avatar" style="width:${size}px;height:${size}px;font-size:${Math.round(size * .38)}px">${esc(initials(name))}</div>`;
+const S = {
+  user: null, profile: null, chats: new Map(), status: new Map(), activeId: null, messages: [], pending: new Set(),
+  subs: [], chatSubs: new Map(), statusSubs: new Map(), msgOff: null,
+  replyTo: null, editing: null, editDraft: '', filter: '', typingSentAt: 0, drafts: {}, readMarked: {}, receiptKey: '', forceBottom: false, users: new Map(), offset: 0
+};
+const uid = () => S.user?.uid;
+const now = () => Date.now() + S.offset;
+const myName = () => S.profile?.name || 'Me';
+const members = c => keys(c.members);
+const others = c => members(c).filter(m => m !== uid());
+const chatTitle = c => c.type === 'group'
+  ? (c.name || others(c).map(id => firstName(c.names?.[id])).filter(Boolean).join(', ') || 'Group')
+  : (c.names?.[others(c)[0]] || 'Unknown');
+const isUnread = c => { const lm = c.lastMessage; if (!lm || lm.senderId === uid()) return false; return ms(c.lastRead?.[uid()]) < ms(c.updatedAt); };
+const online = id => !!S.status.get(id)?.online;
+
+function avatarHTML(name, size = 40, dot = false) {
+  return `<div class="avatar" style="width:${size}px;height:${size}px;font-size:${Math.round(size * .38)}px">${esc(initials(name))}${dot ? '<i class="pres"></i>' : ''}</div>`;
 }
 function chatAvatar(c, size = 40) {
-  if (c.type !== 'group') return avatarHTML(chatTitle(c), size);
   const o = others(c);
+  if (c.type !== 'group') return avatarHTML(chatTitle(c), size, online(o[0]));
   if (o.length < 2) return avatarHTML(c.name || (o[0] && c.names?.[o[0]]) || 'G', size);
   const s = Math.round(size * .66), f = Math.round(s * .38);
   const a = esc(initials(c.names?.[o[0]])), b = esc(initials(c.names?.[o[1]]));
   return `<div class="avatar group" style="width:${size}px;height:${size}px"><span style="width:${s}px;height:${s}px;font-size:${f}px;left:0;top:0">${a}</span><span style="width:${s}px;height:${s}px;font-size:${f}px;right:0;bottom:0">${b}</span></div>`;
 }
-
-const S = {
-  user: null, profile: null, chats: new Map(), activeId: null, messages: [], msgUnsub: null, chatsUnsub: null, profileUnsub: null,
-  replyTo: null, editing: null, filter: '', typingSentAt: 0, drafts: {}, readMarked: {}, receiptKey: '', forceBottom: false, users: new Map()
-};
-const uid = () => S.user?.uid;
-const myName = () => S.profile?.name || S.user?.displayName || (S.user?.email || '').split('@')[0] || 'Me';
-const others = c => (c.members || []).filter(m => m !== uid());
-const chatTitle = c => c.type === 'group'
-  ? (c.name || others(c).map(id => firstName(c.names?.[id])).filter(Boolean).join(', ') || 'Group')
-  : (c.names?.[others(c)[0]] || 'Unknown');
-const isUnread = c => { const lm = c.lastMessage; if (!lm || lm.senderId === uid()) return false; return ms(c.lastRead?.[uid()]) < ms(c.updatedAt); };
 
 function applyTheme() {
   const pref = localStorage.getItem('a1-theme') || 'system';
@@ -341,108 +355,73 @@ function toast(msg) {
   clearTimeout(toastTimer); toastTimer = setTimeout(() => t.remove(), 3200);
 }
 function friendly(e) {
-  const c = e?.code || '';
-  const map = {
-    'auth/invalid-credential': 'Incorrect email or password.', 'auth/wrong-password': 'Incorrect email or password.', 'auth/user-not-found': 'No account with that email.',
-    'auth/invalid-email': 'Enter a valid email address.', 'auth/email-already-in-use': 'An account with that email already exists.',
-    'auth/weak-password': 'Use at least 6 characters.', 'auth/missing-password': 'Enter your password.', 'auth/too-many-requests': 'Too many attempts. Try again later.',
-    'auth/network-request-failed': 'You appear to be offline.', 'auth/operation-not-allowed': 'Enable Email/Password sign-in in the Firebase console.',
-    'permission-denied': 'Missing permissions. Publish the A1 Firestore rules.', 'unavailable': 'You appear to be offline.'
-  };
-  return map[c] || (e?.message || 'Something went wrong.').replace(/^Firebase:\s*/, '').replace(/\s*\(.*\)\.?$/, '');
+  const c = String(e?.code || '').toLowerCase(), m = String(e?.message || '');
+  if (c.includes('permission') || /permission/i.test(m)) return 'Permission denied. Publish the A1 database rules.';
+  if (c.includes('network') || /network|offline/i.test(m)) return 'You appear to be offline.';
+  if (c === 'auth/operation-not-allowed' || c === 'auth/admin-restricted-operation') return 'Enable Anonymous sign-in in the Firebase console.';
+  return m.replace(/^Firebase:\s*/, '').replace(/\s*\(.*\)\.?$/, '') || 'Something went wrong.';
 }
 
+const dayOf = x => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
 function timeShort(t) {
   if (!t) return '';
-  const d = new Date(t), n = new Date();
-  const day = x => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
-  const diff = Math.round((day(n) - day(d)) / 864e5);
+  const d = new Date(t), diff = Math.round((dayOf(new Date()) - dayOf(d)) / 864e5);
   if (diff === 0) return d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
   if (diff === 1) return 'Yesterday';
   if (diff < 7) return d.toLocaleDateString([], { weekday: 'long' });
   return d.toLocaleDateString([], { month: 'numeric', day: 'numeric', year: '2-digit' });
 }
 function timeSep(t) {
-  const d = new Date(t), n = new Date();
-  const day = x => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
-  const diff = Math.round((day(n) - day(d)) / 864e5);
+  const d = new Date(t), n = new Date(), diff = Math.round((dayOf(n) - dayOf(d)) / 864e5);
   const tm = d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
   if (diff === 0) return `<b>Today</b> ${tm}`;
   if (diff === 1) return `<b>Yesterday</b> ${tm}`;
   if (diff < 7) return `<b>${d.toLocaleDateString([], { weekday: 'long' })}</b> ${tm}`;
   return `<b>${d.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric', year: d.getFullYear() === n.getFullYear() ? undefined : 'numeric' })}</b> at ${tm}`;
 }
+function ago(t) {
+  const s = Math.max(0, (now() - t) / 1000);
+  if (s < 60) return 'Active just now';
+  if (s < 3600) return `Active ${Math.floor(s / 60)}m ago`;
+  if (s < 86400) return `Active ${Math.floor(s / 3600)}h ago`;
+  if (s < 7 * 86400) return `Active ${Math.floor(s / 86400)}d ago`;
+  return '';
+}
 function linkify(s) {
   return esc(s).replace(/(https?:\/\/[^\s<]+[^\s<.,;:!?)\]'"])/g, u => `<a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a>`);
 }
-const isEmojiOnly = s => { const t = String(s || '').trim(); if (!t || t.length > 24) return false; try { return /^(?:\p{Extended_Pictographic}|\p{Emoji_Component}|‍|️|\s)+$/u.test(t) && !/^[\d#*\s]+$/.test(t) && [...t.replace(/\s/g, '')].filter(ch => /\p{Extended_Pictographic}/u.test(ch)).length <= 3; } catch (e) { return false; } };
+const isEmojiOnly = s => { const t = String(s || '').trim(); if (!t || t.length > 24) return false; try { return /^(?:\p{Extended_Pictographic}|\p{Emoji_Component}|‍|️|\s)+$/u.test(t) && !/^[\d#*\s]+$/.test(t) && [...t].filter(ch => /\p{Extended_Pictographic}/u.test(ch)).length <= 3; } catch (e) { return false; } };
 
 const app = $('#app');
-
-function renderNotice(title, body) {
-  app.innerHTML = `<div class="center"><div class="notice"><div class="mark">A1</div><h2 style="font-size:17px;font-weight:600;margin-top:10px">${title}</h2><p>${body}</p></div></div>`;
+function renderNotice(title, body, retry) {
+  app.innerHTML = `<div class="center"><div class="notice"><div class="mark">A1</div><h2>${title}</h2><p>${body}</p>${retry ? '<button class="primary pill" data-retry>Try Again</button>' : ''}</div></div>`;
+  $('[data-retry]', app)?.addEventListener('click', retry);
 }
 
-let auth, db, FV;
-if (!window.firebase) {
-  renderNotice('Can’t reach Firebase', 'A1 needs an internet connection to load. Check your connection and reload.');
-} else if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
-  renderNotice('Add your Firebase config', 'Open this file in a text editor and paste your project’s values into <code>firebaseConfig</code> at the top of the script.');
+let auth, rdb, SV;
+if (!window.firebase || !firebase.database) {
+  renderNotice('Can’t reach Firebase', 'A1 needs an internet connection to load. Check your connection and reload.', () => location.reload());
 } else {
   firebase.initializeApp(firebaseConfig);
   auth = firebase.auth();
-  db = firebase.firestore();
-  FV = firebase.firestore.FieldValue;
-  try { db.enablePersistence({ synchronizeTabs: true }).catch(() => { }); } catch (e) { }
+  rdb = firebase.database();
+  SV = firebase.database.ServerValue.TIMESTAMP;
+  rdb.ref('.info/serverTimeOffset').on('value', s => { S.offset = s.val() || 0; });
   auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).catch(() => { }));
   app.innerHTML = '<div class="center"><div class="spinner"></div></div>';
-  auth.onAuthStateChanged(u => { if (u) start(u); else { stop(); renderAuth(); } });
+  auth.onAuthStateChanged(u => { if (u) start(u); else { stop(); signIn(); } });
 }
 
-function renderAuth(mode = 'in') {
-  const up = mode === 'up';
-  app.innerHTML = `
-  <div class="center"><form class="auth" novalidate>
-    <div class="mark">A1</div>
-    <h2>${up ? 'Create your account.' : 'Sign in to continue.'}</h2>
-    ${up ? '<input class="field" name="name" placeholder="Name" autocomplete="name" required>' : ''}
-    <input class="field" name="email" type="email" placeholder="Email" autocomplete="email" required>
-    <input class="field" name="password" type="password" placeholder="Password" autocomplete="${up ? 'new-password' : 'current-password'}" required>
-    <div class="err"></div>
-    <button class="primary" type="submit">${up ? 'Create Account' : 'Sign In'}</button>
-    ${up ? '' : '<div class="forgot"><button type="button" class="link" data-forgot>Forgot password?</button></div>'}
-    <div class="alt">${up ? 'Already have an account?' : 'New to A1?'} <button type="button" class="link" data-swap>${up ? 'Sign In' : 'Create Account'}</button></div>
-  </form></div>`;
-  const f = $('form', app), err = $('.err', f), btn = $('.primary', f);
-  $('[data-swap]', f).onclick = () => renderAuth(up ? 'in' : 'up');
-  $('[data-forgot]', f)?.addEventListener('click', async () => {
-    const email = f.email.value.trim();
-    if (!email) { err.textContent = 'Enter your email first.'; f.email.focus(); return; }
-    try { await auth.sendPasswordResetEmail(email); err.textContent = 'Check your inbox for a reset link.'; } catch (e) { err.textContent = friendly(e); }
-  });
-  f.onsubmit = async e => {
-    e.preventDefault(); err.textContent = '';
-    const email = f.email.value.trim(), pw = f.password.value, name = up ? f.name.value.trim() : '';
-    if (up && !name) { err.textContent = 'Enter your name.'; f.name.focus(); return; }
-    btn.disabled = true;
-    try {
-      if (up) {
-        S.pendingName = name;
-        const cred = await auth.createUserWithEmailAndPassword(email, pw);
-        cred.user.updateProfile({ displayName: name }).catch(() => { });
-      } else {
-        await auth.signInWithEmailAndPassword(email, pw);
-      }
-    } catch (ex) { err.textContent = friendly(ex); btn.disabled = false; }
-  };
-  setTimeout(() => (up ? f.name : f.email).focus(), 30);
+function signIn() {
+  app.innerHTML = '<div class="center"><div class="spinner"></div></div>';
+  auth.signInAnonymously().catch(e => renderNotice('Couldn’t sign in', esc(friendly(e)), signIn));
 }
 
 function stop() {
-  [S.msgUnsub, S.chatsUnsub, S.profileUnsub].forEach(u => { try { u && u(); } catch (e) { } });
-  Object.assign(S, { user: null, profile: null, activeId: null, messages: [], msgUnsub: null, chatsUnsub: null, profileUnsub: null, replyTo: null, editing: null, drafts: {}, readMarked: {} });
-  S.chats.clear(); S.users.clear();
-  document.body.classList.remove('in-chat');
+  [...S.subs, ...S.chatSubs.values(), ...S.statusSubs.values()].forEach(f => { try { f(); } catch (e) { } });
+  if (S.msgOff) try { S.msgOff(); } catch (e) { }
+  Object.assign(S, { user: null, profile: null, activeId: null, messages: [], subs: [], msgOff: null, replyTo: null, editing: null, drafts: {}, readMarked: {} });
+  S.chats.clear(); S.status.clear(); S.chatSubs.clear(); S.statusSubs.clear(); S.users.clear(); S.pending.clear();
   closeSheet(); closeMenu();
   document.title = 'A1';
 }
@@ -451,26 +430,99 @@ async function start(u) {
   if (S.user?.uid === u.uid) return;
   stop();
   S.user = u;
-  const ref = db.collection('users').doc(u.uid);
-  try {
-    const snap = await ref.get();
-    if (!snap.exists) {
-      const name = S.pendingName || u.displayName || (u.email || '').split('@')[0] || 'New User';
-      await ref.set({ name, nameLower: name.toLowerCase(), email: u.email || '', emailLower: (u.email || '').toLowerCase(), createdAt: FV.serverTimestamp() });
-    }
-  } catch (e) { toast(friendly(e)); }
-  S.pendingName = null;
+  let snap;
+  try { snap = await rdb.ref('users/' + u.uid).once('value'); }
+  catch (e) { renderNotice('Couldn’t load your profile', esc(friendly(e)), () => { S.user = null; start(u); }); return; }
   if (S.user?.uid !== u.uid) return;
-  S.profileUnsub = ref.onSnapshot(d => { if (d.exists) { S.profile = { id: d.id, ...d.data() }; $('.me-btn')?.replaceChildren(document.createRange().createContextualFragment(avatarHTML(myName(), 30))); } }, () => { });
+  if (!snap.exists()) renderWelcome(); else enter(snap.val());
+}
+
+function renderWelcome() {
+  app.innerHTML = `
+  <div class="center"><form class="auth" novalidate>
+    <div class="mark">A1</div>
+    <h2>Choose how people will find you.</h2>
+    <input class="field" name="name" placeholder="Name" autocomplete="name" maxlength="40">
+    <label class="field handle"><span>@</span><input name="handle" placeholder="username" autocomplete="off" spellcheck="false" maxlength="20"></label>
+    <div class="err"></div>
+    <button class="primary" type="submit">Continue</button>
+    <div class="alt">Your account lives in this browser. No email or password needed.</div>
+  </form></div>`;
+  const f = $('form', app), err = $('.err', f), btn = $('.primary', f);
+  f.handle.oninput = () => { const v = f.handle.value.toLowerCase().replace(/[^a-z0-9_]/g, ''); if (v !== f.handle.value) f.handle.value = v; };
+  f.name.oninput = () => { if (!f.handle.dataset.touched) f.handle.value = f.name.value.toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 20); };
+  f.handle.addEventListener('keydown', () => f.handle.dataset.touched = '1');
+  f.onsubmit = async e => {
+    e.preventDefault(); err.textContent = '';
+    const name = f.name.value.trim(), handle = f.handle.value.trim();
+    if (!name) { err.textContent = 'Enter your name.'; f.name.focus(); return; }
+    if (!/^[a-z0-9_]{3,20}$/.test(handle)) { err.textContent = 'Usernames are 3–20 letters, numbers or underscores.'; f.handle.focus(); return; }
+    btn.disabled = true;
+    const me = uid();
+    let owner;
+    try { owner = (await rdb.ref('handles/' + handle).once('value')).val(); }
+    catch (ex) { err.textContent = friendly(ex); btn.disabled = false; return; }
+    try {
+      if (owner && owner !== me) { err.textContent = `@${handle} is taken.`; btn.disabled = false; f.handle.focus(); return; }
+      await rdb.ref('handles/' + handle).set(me);
+      const profile = { name, nameLower: name.toLowerCase(), handle, createdAt: SV };
+      await rdb.ref('users/' + me).set(profile);
+      enter({ ...profile, createdAt: now() });
+    } catch (ex) { err.textContent = /permission/i.test(String(ex?.message || ex?.code)) ? `@${handle} is taken.` : friendly(ex); btn.disabled = false; }
+  };
+  setTimeout(() => f.name.focus(), 30);
+}
+
+function on(ref, ev, cb, errCb) {
+  const fn = ref.on(ev, cb, errCb || (e => toast(friendly(e))));
+  return () => ref.off(ev, fn);
+}
+
+function enter(profile) {
+  const me = uid();
+  S.profile = profile;
+  S.subs.push(on(rdb.ref('users/' + me), 'value', s => { if (s.exists()) { S.profile = s.val(); const b = $('.me-btn'); if (b) b.innerHTML = avatarHTML(myName(), 30); } }));
+  const statusRef = rdb.ref('status/' + me);
+  S.subs.push(on(rdb.ref('.info/connected'), 'value', s => {
+    if (!s.val()) return;
+    statusRef.onDisconnect().set({ online: false, lastSeen: SV }).then(() => statusRef.set({ online: true, lastSeen: SV })).catch(() => { });
+  }));
   renderShell();
-  S.chatsUnsub = db.collection('chats').where('members', 'array-contains', u.uid).onSnapshot(qs => {
-    S.chats.clear();
-    qs.forEach(d => S.chats.set(d.id, { id: d.id, ...d.data({ serverTimestamps: 'estimate' }) }));
-    if (S.activeId && !S.chats.has(S.activeId) && !qs.metadata.fromCache) { closeChat(); toast('You’re no longer in that conversation.'); }
+  const ucRef = rdb.ref('userChats/' + me);
+  S.subs.push(on(ucRef, 'child_added', s => watchChat(s.key)));
+  S.subs.push(on(ucRef, 'child_removed', s => unwatchChat(s.key, true)));
+}
+
+let chatsFrame = 0;
+function chatsChanged() {
+  if (chatsFrame) return;
+  chatsFrame = requestAnimationFrame(() => {
+    chatsFrame = 0;
     renderList();
-    if (S.activeId && S.chats.has(S.activeId)) { renderHeader(); renderTyping(); const k = receiptKey(); if (k !== S.receiptKey) renderMessages(); maybeMarkRead(); }
+    if (S.activeId && S.chats.has(S.activeId)) { renderHeader(); renderTyping(); if (receiptKey() !== S.receiptKey) renderMessages(); maybeMarkRead(); }
     updateTitle();
-  }, e => toast(friendly(e)));
+  });
+}
+
+function watchChat(id) {
+  if (S.chatSubs.has(id)) return;
+  S.chatSubs.set(id, on(rdb.ref('chats/' + id), 'value', s => {
+    if (!s.exists()) { S.chats.delete(id); chatsChanged(); return; }
+    const c = { id, ...s.val() };
+    S.chats.set(id, c);
+    if (c.type === 'direct') others(c).forEach(watchStatus);
+    chatsChanged();
+  }, () => unwatchChat(id, true)));
+}
+function unwatchChat(id, removed) {
+  const off = S.chatSubs.get(id); if (off) { try { off(); } catch (e) { } }
+  S.chatSubs.delete(id); S.chats.delete(id);
+  if (removed && S.activeId === id) { closeChat(); toast('You’re no longer in that conversation.'); }
+  chatsChanged();
+}
+function watchStatus(id) {
+  if (!id || S.statusSubs.has(id)) return;
+  S.statusSubs.set(id, on(rdb.ref('status/' + id), 'value', s => { S.status.set(id, s.val() || {}); chatsChanged(); }, () => { }));
 }
 
 function renderShell() {
@@ -479,17 +531,20 @@ function renderShell() {
     <div class="side-head">
       <h1>Messages</h1>
       <button class="me-btn" title="Settings">${avatarHTML(myName(), 30)}</button>
-      <button class="ibtn" data-compose title="New Message">${icon('compose')}</button>
+      <button class="ibtn" data-compose title="New Message (${ALT}N)">${icon('compose')}</button>
     </div>
-    <label class="search">${icon('search')}<input placeholder="Search" spellcheck="false"></label>
+    <label class="search">${icon('search')}<input placeholder="Search" spellcheck="false"><kbd>${MOD}K</kbd></label>
     <div class="list"></div>
   </aside>
-  <main class="main"><div class="placeholder">Select a conversation</div></main>`;
+  <main class="main"><div class="placeholder">Select a conversation or start a new one.</div></main>`;
   $('.me-btn').onclick = openSettings;
   $('[data-compose]').onclick = () => openCompose();
   const si = $('.search input');
   si.oninput = () => { S.filter = si.value.trim().toLowerCase(); renderList(); };
-  si.onkeydown = e => { if (e.key === 'Escape') { si.value = ''; S.filter = ''; renderList(); si.blur(); } };
+  si.onkeydown = e => {
+    if (e.key === 'Escape') { si.value = ''; S.filter = ''; renderList(); si.blur(); }
+    if (e.key === 'Enter') { const first = $('.list .item'); if (first) { openChat(first.dataset.id); si.blur(); } }
+  };
   renderList();
 }
 
@@ -501,14 +556,16 @@ function previewText(c) {
   return who + (lm.text || '');
 }
 
+function sortedChats() { return [...S.chats.values()].sort((a, b) => ms(b.updatedAt) - ms(a.updatedAt)); }
+
 function renderList() {
   const list = $('.list'); if (!list) return;
-  let chats = [...S.chats.values()].sort((a, b) => ms(b.updatedAt) - ms(a.updatedAt));
+  let chats = sortedChats();
   if (S.filter) chats = chats.filter(c => chatTitle(c).toLowerCase().includes(S.filter) || (c.lastMessage?.text || '').toLowerCase().includes(S.filter) || Object.values(c.names || {}).some(n => String(n).toLowerCase().includes(S.filter)));
   if (!chats.length) {
     list.innerHTML = S.filter
       ? `<div class="empty">No results for “${esc(S.filter)}”</div>`
-      : `<div class="empty"><b>No Conversations</b>Start a message or create a group.<br><button class="primary" data-new>New Message</button></div>`;
+      : `<div class="empty"><b>No Conversations</b>Message someone by their username, or start a group.<br><button class="primary pill" data-new>New Message</button></div>`;
     $('[data-new]', list)?.addEventListener('click', () => openCompose());
     return;
   }
@@ -530,75 +587,74 @@ function updateTitle() {
 }
 
 function closeChat() {
-  try { S.msgUnsub && S.msgUnsub(); } catch (e) { }
-  S.msgUnsub = null; S.activeId = null; S.messages = []; S.replyTo = null; S.editing = null;
-  document.body.classList.remove('in-chat');
-  const main = $('.main'); if (main) main.innerHTML = '<div class="placeholder">Select a conversation</div>';
+  saveDraft();
+  if (S.msgOff) try { S.msgOff(); } catch (e) { }
+  S.msgOff = null; S.activeId = null; S.messages = []; S.replyTo = null; S.editing = null;
+  const main = $('.main'); if (main) main.innerHTML = '<div class="placeholder">Select a conversation or start a new one.</div>';
   renderList();
 }
+function saveDraft() { const ta = $('.cbox textarea'); if (S.activeId && ta && !S.editing) S.drafts[S.activeId] = ta.value; }
 
 function openChat(id) {
-  if (S.activeId === id) { document.body.classList.add('in-chat'); return; }
-  const prev = S.activeId, ta = $('.cbox textarea');
-  if (prev && ta) S.drafts[prev] = ta.value;
-  try { S.msgUnsub && S.msgUnsub(); } catch (e) { }
+  if (S.activeId === id) { $('.cbox textarea')?.focus(); return; }
+  saveDraft();
+  if (S.msgOff) try { S.msgOff(); } catch (e) { }
   S.activeId = id; S.messages = []; S.replyTo = null; S.editing = null; S.receiptKey = ''; S.forceBottom = true;
-  document.body.classList.add('in-chat');
   renderConversation();
   renderList();
-  S.msgUnsub = db.collection('chats').doc(id).collection('messages').orderBy('createdAt').limitToLast(400)
-    .onSnapshot({ includeMetadataChanges: true }, qs => {
-      if (S.activeId !== id) return;
-      S.messages = qs.docs.map(d => ({ id: d.id, pending: d.metadata.hasPendingWrites, ...d.data({ serverTimestamps: 'estimate' }) }));
-      renderMessages(); maybeMarkRead();
-    }, e => { if (S.activeId === id) toast(friendly(e)); });
+  S.msgOff = on(rdb.ref('messages/' + id).orderByChild('createdAt').limitToLast(500), 'value', s => {
+    if (S.activeId !== id) return;
+    const out = []; s.forEach(c => { out.push({ id: c.key, ...c.val() }); });
+    S.messages = out;
+    renderMessages(); maybeMarkRead();
+  }, e => { if (S.activeId === id) toast(friendly(e)); });
 }
 
 function renderConversation() {
   const main = $('.main');
   main.innerHTML = `
     <header class="chead">
-      <button class="ibtn back" title="Back">${icon('back')}</button>
-      <div class="who"></div>
-      <button class="ibtn info" title="Details">${icon('info')}</button>
+      <span></span>
+      <div class="who" title="Details"></div>
+      <button class="ibtn info" title="Details (${MOD}I)">${icon('info')}</button>
     </header>
     <div class="msgs"><div class="spacer"></div><div class="mlist"></div><div class="typing-wrap"></div></div>
     <div class="composer">
       <div class="ctx hidden"></div>
-      <div class="cbox"><textarea rows="1" placeholder="Message"></textarea><button class="send" disabled title="Send">${icon('up')}</button></div>
+      <div class="cbox"><textarea rows="1" placeholder="Message"></textarea><button class="send" disabled title="Send (Return)">${icon('up')}</button></div>
     </div>`;
-  $('.back', main).onclick = closeChat;
   $('.info', main).onclick = openInfo;
   $('.who', main).onclick = openInfo;
   const ta = $('textarea', main), sendBtn = $('.send', main);
   ta.value = S.drafts[S.activeId] || '';
-  const sync = () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 140) + 'px'; sendBtn.disabled = !ta.value.trim(); };
+  const sync = () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 180) + 'px'; sendBtn.disabled = !ta.value.trim(); };
   sync();
   ta.oninput = () => { sync(); pingTyping(); };
   ta.onkeydown = e => {
     if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); }
-    else if (e.key === 'Escape' && (S.replyTo || S.editing)) { e.preventDefault(); clearCtx(); }
+    else if (e.key === 'Escape' && (S.replyTo || S.editing)) { e.preventDefault(); e.stopPropagation(); clearCtx(); }
     else if (e.key === 'ArrowUp' && !ta.value) { const m = [...S.messages].reverse().find(x => x.senderId === uid() && x.type !== 'system' && !x.deleted); if (m) { e.preventDefault(); startEdit(m); } }
   };
   sendBtn.onclick = send;
   const list = $('.msgs', main);
   list.addEventListener('contextmenu', e => { const row = e.target.closest('.row'); if (!row || e.target.closest('a')) return; e.preventDefault(); openMsgMenu(row.dataset.id, e.clientX, e.clientY); });
-  list.addEventListener('dblclick', e => { const b = e.target.closest('.bubble'); if (!b) return; const row = b.closest('.row'); const r = b.getBoundingClientRect(); window.getSelection()?.removeAllRanges(); openMsgMenu(row.dataset.id, r.left + r.width / 2, r.top); });
+  list.addEventListener('dblclick', e => { const b = e.target.closest('.bubble'); if (!b) return; const r = b.getBoundingClientRect(); window.getSelection()?.removeAllRanges(); openMsgMenu(b.closest('.row').dataset.id, r.left + r.width / 2, r.top); });
   list.addEventListener('click', e => {
-    const more = e.target.closest('.more'); if (more) { const r = more.getBoundingClientRect(); openMsgMenu(more.closest('.row').dataset.id, r.left, r.bottom); return; }
+    const more = e.target.closest('.more'); if (more) { const r = more.getBoundingClientRect(); openMsgMenu(more.closest('.row').dataset.id, r.left, r.bottom + 4); return; }
+    const rb = e.target.closest('.quick-reply'); if (rb) { const m = S.messages.find(x => x.id === rb.closest('.row').dataset.id); if (m) startReply(m); return; }
     const re = e.target.closest('.react'); if (re) { toggleReact(re.closest('.row').dataset.id, re.dataset.k); return; }
-    const rr = e.target.closest('.reply-ref'); if (rr) { jumpTo(rr.dataset.to); }
+    const rr = e.target.closest('.reply-ref'); if (rr) jumpTo(rr.dataset.to);
   });
-  let lp;
-  list.addEventListener('touchstart', e => { const row = e.target.closest('.row'); if (!row) return; const t = e.touches[0]; lp = setTimeout(() => { lp = null; openMsgMenu(row.dataset.id, t.clientX, t.clientY); }, 450); }, { passive: true });
-  ['touchend', 'touchmove', 'touchcancel'].forEach(ev => list.addEventListener(ev, () => { clearTimeout(lp); }, { passive: true }));
   renderHeader(); renderMessages(); renderTyping(); renderCtx();
-  if (matchMedia('(hover: hover)').matches) ta.focus();
+  ta.focus();
 }
 
 function renderHeader() {
   const c = S.chats.get(S.activeId), who = $('.chead .who'); if (!c || !who) return;
-  who.innerHTML = `${chatAvatar(c, 38)}<div class="n"><span>${esc(chatTitle(c))}</span>${icon('chevron')}</div>`;
+  let sub = '';
+  if (c.type === 'group') sub = `${members(c).length} members`;
+  else { const st = S.status.get(others(c)[0]); sub = st?.online ? 'Active now' : st?.lastSeen ? ago(st.lastSeen) : ''; }
+  who.innerHTML = `${chatAvatar(c, 38)}<div class="n"><span>${esc(chatTitle(c))}</span>${icon('chevron')}</div>${sub ? `<div class="s">${esc(sub)}</div>` : ''}`;
 }
 
 function receiptKey() {
@@ -612,32 +668,32 @@ function renderMessages() {
   S.receiptKey = receiptKey();
   const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 90;
   const me = uid(), group = c.type === 'group', msgs = S.messages;
+  const gap = 15 * 60e3;
   let html = '', prev = null;
   const lastMine = [...msgs].reverse().find(m => m.senderId === me && m.type !== 'system');
   if (!msgs.length) html = `<div class="sys" style="margin-top:auto">${group ? 'This is the beginning of the group.' : 'Say hello to ' + esc(firstName(chatTitle(c))) + '.'}</div>`;
   msgs.forEach((m, i) => {
     const t = ms(m.createdAt), next = msgs[i + 1];
-    if (!prev || t - ms(prev.createdAt) > 15 * 60e3) html += `<div class="sep">${timeSep(t || Date.now())}</div>`;
+    if (!prev || t - ms(prev.createdAt) > gap) html += `<div class="sep">${timeSep(t || now())}</div>`;
     if (m.type === 'system') { html += `<div class="sys">${esc(m.text)}</div>`; prev = m; return; }
     const brk = x => !x || x.type === 'system' || x.senderId !== m.senderId;
-    const first = brk(prev) || t - ms(prev.createdAt) > 15 * 60e3;
-    const last = brk(next) || ms(next.createdAt) - t > 15 * 60e3;
+    const first = brk(prev) || t - ms(prev.createdAt) > gap;
+    const last = brk(next) || ms(next.createdAt) - t > gap;
     const mine = m.senderId === me;
-    const reacts = Object.entries(m.reactions || {}).filter(([k, v]) => TB[k] && v && v.length);
+    const reacts = Object.entries(m.reactions || {}).map(([k, v]) => [k, keys(v)]).filter(([k, v]) => TB[k] && v.length);
     const big = !m.deleted && isEmojiOnly(m.text);
-    let cls = `row ${mine ? 'me' : 'them'}${first ? ' first' : ''}${last ? ' last' : ''}${m.pending ? ' pending' : ''}${reacts.length ? ' has-react' : ''}`;
-    html += `<div class="${cls}" data-id="${esc(m.id)}">`;
-    if (!mine && group) html += `<div class="av">${last ? avatarHTML(m.senderName || c.names?.[m.senderId], 28) : ''}</div>`;
+    html += `<div class="row ${mine ? 'me' : 'them'}${first ? ' first' : ''}${last ? ' last' : ''}${S.pending.has(m.id) ? ' pending' : ''}${reacts.length ? ' has-react' : ''}" data-id="${esc(m.id)}">`;
+    if (!mine && group) html += `<div class="av">${last ? avatarHTML(c.names?.[m.senderId] || m.senderName, 28) : ''}</div>`;
     html += `<div class="stack">`;
     if (!mine && group && first) html += `<div class="sender">${esc(c.names?.[m.senderId] || m.senderName || '')}</div>`;
-    if (m.replyTo && !m.deleted) html += `<div class="reply-ref" data-to="${esc(m.replyTo.id)}">${icon('reply')}<b>${esc(m.replyTo.senderId === me ? 'You' : firstName(m.replyTo.senderName))}</b> ${esc(clip(m.replyTo.text, 60))}</div>`;
-    html += `<div class="bubble${big ? ' big' : ''}${m.deleted ? ' deleted' : ''}">${m.deleted ? 'Message deleted' : linkify(m.text)}`;
+    if (m.replyTo && !m.deleted) html += `<div class="reply-ref" data-to="${esc(m.replyTo.id)}">${icon('reply')}<b>${esc(m.replyTo.senderId === me ? 'You' : firstName(c.names?.[m.replyTo.senderId] || m.replyTo.senderName))}</b> ${esc(clip(m.replyTo.text, 60))}</div>`;
+    html += `<div class="bubble${big ? ' big' : ''}${m.deleted ? ' deleted' : ''}" title="${esc(new Date(t).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }))}">${m.deleted ? 'Message deleted' : linkify(m.text)}`;
     if (reacts.length) html += `<div class="reacts">${reacts.map(([k, v]) => `<button class="react${v.includes(me) ? ' mine' : ''}" data-k="${k}" title="${esc(v.map(id => id === me ? 'You' : firstName(c.names?.[id]) || 'Someone').join(', '))}">${TB[k]}${v.length > 1 ? `<span>${v.length}</span>` : ''}</button>`).join('')}</div>`;
     html += `</div>`;
     if (m.editedAt && !m.deleted) html += `<div class="meta">Edited</div>`;
     if (lastMine && m.id === lastMine.id) html += `<div class="receipt">${esc(receiptFor(c, m))}</div>`;
     html += `</div>`;
-    if (!m.deleted) html += `<button class="more" title="More">${icon('dots')}</button>`;
+    if (!m.deleted) html += `<div class="acts"><button class="quick-reply" title="Reply">${icon('reply')}</button><button class="more" title="More">${icon('dots')}</button></div>`;
     html += `</div>`;
     prev = m;
   });
@@ -646,7 +702,7 @@ function renderMessages() {
 }
 
 function receiptFor(c, m) {
-  if (m.pending) return 'Sending…';
+  if (S.pending.has(m.id)) return 'Sending…';
   const t = ms(m.createdAt), o = others(c);
   const read = o.filter(id => ms(c.lastRead?.[id]) >= t);
   if (c.type !== 'group') return read.length ? 'Read' : 'Delivered';
@@ -658,42 +714,44 @@ function receiptFor(c, m) {
 function renderTyping() {
   const w = $('.typing-wrap'), box = $('.msgs'); if (!w) return;
   const c = S.chats.get(S.activeId); if (!c) return;
-  const now = Date.now();
-  const who = others(c).filter(id => now - (c.typing?.[id] || 0) < 6000);
+  const who = others(c).filter(id => now() - ms(c.typing?.[id]) < 6000);
   const had = !!w.innerHTML;
   if (!who.length) { w.innerHTML = ''; return; }
   const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 90;
-  w.innerHTML = (c.type === 'group' ? `<div class="who">${esc(who.map(id => firstName(c.names?.[id])).join(', '))}</div>` : '') + `<div class="typing"${c.type === 'group' ? '' : ' style="margin-left:0"'}><i></i><i></i><i></i></div>`;
+  w.innerHTML = (c.type === 'group' ? `<div class="who">${esc(who.map(id => firstName(c.names?.[id])).join(', '))}</div>` : '') + `<div class="typing${c.type === 'group' ? '' : ' flush'}"><i></i><i></i><i></i></div>`;
   if (!had && atBottom) box.scrollTop = box.scrollHeight;
 }
-setInterval(() => { if (S.activeId) renderTyping(); }, 2000);
+setInterval(() => { if (S.activeId) { renderTyping(); renderHeader(); } }, 2000);
+
+function chatRef(id) { return rdb.ref('chats/' + id); }
 
 function pingTyping() {
   const c = S.chats.get(S.activeId); if (!c) return;
   const ta = $('.cbox textarea'); if (!ta || !ta.value.trim() || S.editing) return;
   if (Date.now() - S.typingSentAt < 3500) return;
   S.typingSentAt = Date.now();
-  db.collection('chats').doc(c.id).update({ ['typing.' + uid()]: Date.now() }).catch(() => { });
+  chatRef(c.id).child('typing/' + uid()).set(SV).catch(() => { });
 }
 
 function maybeMarkRead() {
   const c = S.chats.get(S.activeId);
-  if (!c || document.visibilityState !== 'visible' || !isUnread(c)) return;
-  const key = ms(c.updatedAt);
-  if (S.readMarked[c.id] === key) return;
-  S.readMarked[c.id] = key;
-  db.collection('chats').doc(c.id).update({ ['lastRead.' + uid()]: FV.serverTimestamp() }).catch(() => { });
+  if (!c || document.visibilityState !== 'visible' || !document.hasFocus() || !isUnread(c)) return;
+  const k = ms(c.updatedAt);
+  if (S.readMarked[c.id] === k) return;
+  S.readMarked[c.id] = k;
+  chatRef(c.id).child('lastRead/' + uid()).set(SV).catch(() => { });
 }
 document.addEventListener('visibilitychange', () => { if (S.activeId) maybeMarkRead(); });
+window.addEventListener('focus', () => { if (S.activeId) maybeMarkRead(); });
 
 function renderCtx() {
   const el = $('.ctx'); if (!el) return;
   const c = S.chats.get(S.activeId);
   if (S.editing) {
-    el.innerHTML = `<div><b>Editing</b> ${esc(clip(S.editing.text, 80))}</div><button class="ibtn" title="Cancel">${icon('x')}</button>`;
+    el.innerHTML = `<div><b>Editing</b> · ${esc(clip(S.editing.text, 80))}</div><button class="ibtn" title="Cancel (Esc)">${icon('x')}</button>`;
   } else if (S.replyTo) {
     const n = S.replyTo.senderId === uid() ? 'yourself' : (c?.names?.[S.replyTo.senderId] || S.replyTo.senderName);
-    el.innerHTML = `<div>Replying to <b>${esc(n)}</b> · ${esc(clip(S.replyTo.text, 70))}</div><button class="ibtn" title="Cancel">${icon('x')}</button>`;
+    el.innerHTML = `<div>Replying to <b>${esc(n)}</b> · ${esc(clip(S.replyTo.text, 70))}</div><button class="ibtn" title="Cancel (Esc)">${icon('x')}</button>`;
   } else { el.classList.add('hidden'); el.innerHTML = ''; return; }
   el.classList.remove('hidden');
   $('button', el).onclick = clearCtx;
@@ -705,7 +763,12 @@ function clearCtx() {
   renderCtx();
   if (ta) { ta.dispatchEvent(new Event('input')); ta.focus(); }
 }
-function startReply(m) { S.editing = null; S.replyTo = m; renderCtx(); $('.cbox textarea')?.focus(); }
+function startReply(m) {
+  const ta = $('.cbox textarea');
+  if (S.editing && ta) { ta.value = S.editDraft || ''; S.editDraft = ''; }
+  S.editing = null; S.replyTo = m; renderCtx();
+  if (ta) { ta.dispatchEvent(new Event('input')); ta.focus(); }
+}
 function startEdit(m) {
   const ta = $('.cbox textarea'); if (!ta) return;
   if (!S.editing) S.editDraft = ta.value;
@@ -713,57 +776,60 @@ function startEdit(m) {
   ta.dispatchEvent(new Event('input')); ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length);
 }
 
-async function send() {
+function send() {
   const ta = $('.cbox textarea'), c = S.chats.get(S.activeId); if (!ta || !c) return;
   const text = ta.value.trim(); if (!text) return;
-  const chatRef = db.collection('chats').doc(c.id);
+  const me = uid(), base = 'chats/' + c.id;
   if (S.editing) {
     const m = S.editing;
     S.editing = null; ta.value = S.editDraft || ''; S.editDraft = ''; renderCtx(); ta.dispatchEvent(new Event('input'));
     if (text === m.text) return;
-    const batch = db.batch();
-    batch.update(chatRef.collection('messages').doc(m.id), { text, editedAt: FV.serverTimestamp() });
-    if (S.messages[S.messages.length - 1]?.id === m.id) batch.update(chatRef, { 'lastMessage.text': text });
-    batch.commit().catch(e => toast(friendly(e)));
+    const upd = { [`messages/${c.id}/${m.id}/text`]: text, [`messages/${c.id}/${m.id}/editedAt`]: SV };
+    if (S.messages[S.messages.length - 1]?.id === m.id) upd[base + '/lastMessage/text'] = clip(text, 200);
+    rdb.ref().update(upd).catch(e => toast(friendly(e)));
     return;
   }
-  const msgRef = chatRef.collection('messages').doc();
-  const msg = { type: 'text', text, senderId: uid(), senderName: myName(), createdAt: FV.serverTimestamp() };
+  const key = rdb.ref('messages/' + c.id).push().key;
+  const msg = { type: 'text', text, senderId: me, senderName: myName(), createdAt: SV };
   if (S.replyTo) msg.replyTo = { id: S.replyTo.id, text: clip(S.replyTo.text, 140), senderId: S.replyTo.senderId, senderName: S.replyTo.senderName || '' };
-  const batch = db.batch();
-  batch.set(msgRef, msg);
-  batch.update(chatRef, { lastMessage: { text: clip(text, 200), senderId: uid(), senderName: myName() }, updatedAt: FV.serverTimestamp(), ['lastRead.' + uid()]: FV.serverTimestamp(), ['typing.' + uid()]: 0 });
   ta.value = ''; S.drafts[c.id] = ''; S.replyTo = null; S.typingSentAt = 0; renderCtx(); ta.dispatchEvent(new Event('input'));
-  S.forceBottom = true;
-  batch.commit().catch(e => toast(friendly(e)));
+  S.forceBottom = true; S.pending.add(key);
+  rdb.ref().update({
+    [`messages/${c.id}/${key}`]: msg,
+    [base + '/lastMessage']: { text: clip(text, 200), senderId: me, senderName: myName() },
+    [base + '/updatedAt']: SV,
+    [base + '/lastRead/' + me]: SV,
+    [base + '/typing/' + me]: null
+  }).then(() => { S.pending.delete(key); if (S.activeId === c.id) renderMessages(); })
+    .catch(e => { S.pending.delete(key); toast(friendly(e)); });
 }
 
-async function postSystem(chatId, text, extra = {}) {
-  const ref = db.collection('chats').doc(chatId);
-  const batch = db.batch();
-  batch.set(ref.collection('messages').doc(), { type: 'system', text, senderId: uid(), senderName: myName(), createdAt: FV.serverTimestamp() });
-  batch.update(ref, { lastMessage: { text, senderId: uid(), senderName: myName(), system: true }, updatedAt: FV.serverTimestamp(), ['lastRead.' + uid()]: FV.serverTimestamp(), ...extra });
-  await batch.commit();
+function systemUpdate(chatId, text) {
+  const me = uid(), key = rdb.ref('messages/' + chatId).push().key, base = 'chats/' + chatId;
+  return {
+    [`messages/${chatId}/${key}`]: { type: 'system', text, senderId: me, senderName: myName(), createdAt: SV },
+    [base + '/lastMessage']: { text, senderId: me, senderName: myName(), system: true },
+    [base + '/updatedAt']: SV
+  };
 }
 
 function toggleReact(msgId, key) {
   const c = S.chats.get(S.activeId), m = S.messages.find(x => x.id === msgId); if (!c || !m || m.deleted) return;
-  const me = uid(), had = (m.reactions?.[key] || []).includes(me);
-  const upd = {};
+  const me = uid(), had = !!m.reactions?.[key]?.[me], upd = {};
   TAPBACKS.forEach(([k]) => {
-    if (k === key) upd['reactions.' + k] = had ? FV.arrayRemove(me) : FV.arrayUnion(me);
-    else if ((m.reactions?.[k] || []).includes(me)) upd['reactions.' + k] = FV.arrayRemove(me);
+    const p = `messages/${c.id}/${msgId}/reactions/${k}/${me}`;
+    if (k === key) upd[p] = had ? null : true;
+    else if (m.reactions?.[k]?.[me]) upd[p] = null;
   });
-  db.collection('chats').doc(c.id).collection('messages').doc(msgId).update(upd).catch(e => toast(friendly(e)));
+  rdb.ref().update(upd).catch(e => toast(friendly(e)));
 }
 
-async function deleteMsg(m) {
+function deleteMsg(m) {
   const c = S.chats.get(S.activeId); if (!c) return;
-  const ref = db.collection('chats').doc(c.id);
-  const batch = db.batch();
-  batch.update(ref.collection('messages').doc(m.id), { deleted: true, text: '', reactions: {}, replyTo: FV.delete() });
-  if (S.messages[S.messages.length - 1]?.id === m.id) batch.update(ref, { 'lastMessage.text': 'Message deleted' });
-  batch.commit().catch(e => toast(friendly(e)));
+  const p = `messages/${c.id}/${m.id}/`;
+  const upd = { [p + 'deleted']: true, [p + 'text']: '', [p + 'reactions']: null, [p + 'replyTo']: null };
+  if (S.messages[S.messages.length - 1]?.id === m.id) upd[`chats/${c.id}/lastMessage/text`] = 'Message deleted';
+  rdb.ref().update(upd).catch(e => toast(friendly(e)));
 }
 
 function jumpTo(id) {
@@ -781,7 +847,7 @@ function openMsgMenu(id, x, y) {
   const scrim = document.createElement('div'); scrim.className = 'menu-scrim';
   const menu = document.createElement('div'); menu.className = 'menu';
   menu.innerHTML = `
-    <div class="tapbacks">${TAPBACKS.map(([k, g]) => `<button data-k="${k}" class="${(m.reactions?.[k] || []).includes(me) ? 'on' : ''}">${g}</button>`).join('')}</div>
+    <div class="tapbacks">${TAPBACKS.map(([k, g]) => `<button data-k="${k}" class="${m.reactions?.[k]?.[me] ? 'on' : ''}">${g}</button>`).join('')}</div>
     <button class="mi" data-a="reply">${icon('reply')}Reply</button>
     <button class="mi" data-a="copy">${icon('copy')}Copy</button>
     ${mine ? `<button class="mi" data-a="edit">${icon('edit')}Edit</button><hr><button class="mi" data-a="delete">${icon('trash')}Delete</button>` : ''}`;
@@ -789,7 +855,7 @@ function openMsgMenu(id, x, y) {
   const r = menu.getBoundingClientRect();
   menu.style.left = Math.max(8, Math.min(x, innerWidth - r.width - 8)) + 'px';
   menu.style.top = Math.max(8, Math.min(y, innerHeight - r.height - 8)) + 'px';
-  scrim.onclick = closeMenu;
+  scrim.onmousedown = closeMenu;
   scrim.oncontextmenu = e => { e.preventDefault(); closeMenu(); };
   $$('.tapbacks button', menu).forEach(b => b.onclick = () => { toggleReact(id, b.dataset.k); closeMenu(); });
   $$('.mi', menu).forEach(b => b.onclick = async () => {
@@ -802,7 +868,12 @@ function openMsgMenu(id, x, y) {
   });
 }
 
-function closeSheet() { const s = $('.scrim'); if (!s) return; if (s.contains(document.activeElement)) document.activeElement.blur(); s.remove(); }
+function closeSheet() {
+  const s = $('.scrim'); if (!s) return;
+  if (s.contains(document.activeElement)) document.activeElement.blur();
+  s.remove();
+  if (S.activeId) $('.cbox textarea')?.focus();
+}
 function openSheet({ title, left = 'Cancel', right = '', body = '', onRight }) {
   closeSheet(); closeMenu();
   const scrim = document.createElement('div'); scrim.className = 'scrim';
@@ -816,81 +887,86 @@ function openSheet({ title, left = 'Cancel', right = '', body = '', onRight }) {
   return scrim;
 }
 function confirmSheet(title, text, action, fn) {
-  const s = openSheet({ title, body: `<div class="hint" style="padding:22px 22px 6px">${esc(text)}</div><div style="padding:12px 16px 18px"><button class="primary" data-ok>${esc(action)}</button></div>` });
-  $('[data-ok]', s).onclick = async () => { closeSheet(); try { await fn(); } catch (e) { toast(friendly(e)); } };
+  const s = openSheet({ title, body: `<div class="hint" style="padding:22px 24px 6px">${esc(text)}</div><div style="padding:12px 16px 18px"><button class="primary" data-ok>${esc(action)}</button></div>` });
+  const ok = $('[data-ok]', s);
+  ok.onclick = async () => { closeSheet(); try { await fn(); } catch (e) { toast(friendly(e)); } };
+  setTimeout(() => ok.focus(), 30);
 }
 
 async function searchUsers(q) {
-  q = q.trim().toLowerCase(); if (!q) return [];
-  const col = db.collection('users'), out = new Map();
-  const qs = [col.where('nameLower', '>=', q).where('nameLower', '<=', q + '').limit(12).get()];
-  qs.push(q.includes('@') ? col.where('emailLower', '==', q).limit(1).get() : col.where('emailLower', '>=', q).where('emailLower', '<=', q + '').limit(8).get());
-  const res = await Promise.allSettled(qs);
-  res.forEach(r => r.status === 'fulfilled' && r.value.forEach(d => { if (d.id !== uid()) out.set(d.id, { id: d.id, ...d.data() }); }));
+  q = q.trim().toLowerCase().replace(/^@/, ''); if (!q) return [];
+  const users = rdb.ref('users'), out = new Map();
+  const res = await Promise.allSettled([
+    users.orderByChild('handle').startAt(q).endAt(q + '').limitToFirst(10).once('value'),
+    users.orderByChild('nameLower').startAt(q).endAt(q + '').limitToFirst(10).once('value')
+  ]);
+  res.forEach(r => r.status === 'fulfilled' && r.value.forEach(d => { if (d.key !== uid()) out.set(d.key, { id: d.key, ...d.val() }); }));
   if (res.every(r => r.status === 'rejected')) throw res[0].reason;
-  return [...out.values()];
+  return [...out.values()].sort((a, b) => (b.handle === q) - (a.handle === q));
 }
 function knownPeople(exclude = []) {
   const seen = new Map();
-  [...S.chats.values()].sort((a, b) => ms(b.updatedAt) - ms(a.updatedAt)).forEach(c => others(c).forEach(id => { if (!seen.has(id) && !exclude.includes(id)) seen.set(id, { id, name: c.names?.[id] || 'Unknown' }); }));
+  sortedChats().forEach(c => others(c).forEach(id => { if (!seen.has(id) && !exclude.includes(id)) seen.set(id, { id, name: c.names?.[id] || 'Unknown' }); }));
   return [...seen.values()].slice(0, 30);
 }
-async function getUser(id) {
+function getUser(id) {
   if (S.users.has(id)) return S.users.get(id);
-  const p = db.collection('users').doc(id).get().then(d => d.exists ? { id, ...d.data() } : { id, name: 'Unknown' }).catch(() => ({ id, name: 'Unknown' }));
+  const p = rdb.ref('users/' + id).once('value').then(d => d.exists() ? { id, ...d.val() } : { id, name: 'Unknown' }).catch(() => ({ id, name: 'Unknown' }));
   S.users.set(id, p); return p;
 }
 
-function peoplePicker(sheet, { exclude = [], onChange }) {
+function peoplePicker(sheet, { exclude = [], onChange, initial = [] }) {
   const sel = new Map();
   const to = $('.to', sheet), input = $('.to input', sheet), results = $('.results', sheet);
-  let timer, token = 0;
-  const personRow = p => `<div class="person${sel.has(p.id) ? ' on' : ''}" data-id="${esc(p.id)}">${avatarHTML(p.name, 36)}<div class="t"><div>${esc(p.name)}</div>${p.email ? `<div class="s">${esc(p.email)}</div>` : ''}</div><div class="check">${icon('check')}</div></div>`;
-  let shown = [];
+  let timer, token = 0, shown = [], cursor = 0;
+  const personRow = (p, i) => `<div class="person${sel.has(p.id) ? ' on' : ''}${i === cursor ? ' cur' : ''}" data-id="${esc(p.id)}">${avatarHTML(p.name, 36, online(p.id))}<div class="t"><div>${esc(p.name)}</div><div class="s" data-h="${esc(p.id)}">${p.handle ? '@' + esc(p.handle) : ''}</div></div><div class="check">${icon('check')}</div></div>`;
+  const pick = p => {
+    if (sel.has(p.id)) sel.delete(p.id); else sel.set(p.id, p);
+    drawChips(); onChange([...sel.values()]);
+    if (input.value) { input.value = ''; run(); } else draw(shown, results.dataset.label);
+    input.focus();
+  };
   const draw = (people, label) => {
-    shown = people;
-    results.innerHTML = people.length ? `<div class="section">${esc(label)}</div>` + people.map(personRow).join('') : `<div class="hint">${input.value.trim() ? 'No people found.' : 'Search for people by name or email.'}</div>`;
-    $$('.person', results).forEach(el => el.onclick = () => {
-      const p = shown.find(x => x.id === el.dataset.id);
-      if (sel.has(p.id)) sel.delete(p.id); else sel.set(p.id, p);
-      drawChips(); el.classList.toggle('on', sel.has(p.id)); onChange([...sel.values()]);
-      if (input.value) { input.value = ''; run(); }
-      input.focus();
-    });
+    shown = people; results.dataset.label = label; cursor = Math.min(cursor, Math.max(0, people.length - 1));
+    results.innerHTML = people.length ? `<div class="section">${esc(label)}</div>` + people.map(personRow).join('') : `<div class="hint">${input.value.trim() ? 'No one found with that name or username.' : 'Search by name or @username.'}</div>`;
+    $$('.person', results).forEach(el => el.onclick = () => pick(shown.find(x => x.id === el.dataset.id)));
+    people.filter(p => !p.handle).forEach(async p => { const u = await getUser(p.id); const el = $(`[data-h="${CSS.escape(p.id)}"]`, results); if (el && u.handle) el.textContent = '@' + u.handle; p.handle = u.handle; });
   };
   const drawChips = () => {
     $$('.chip', to).forEach(c => c.remove());
     [...sel.values()].forEach(p => {
       const chip = document.createElement('span'); chip.className = 'chip';
       chip.innerHTML = `${esc(firstName(p.name) || p.name)}<button title="Remove">${icon('x')}</button>`;
-      $('button', chip).onclick = () => { sel.delete(p.id); drawChips(); run(); onChange([...sel.values()]); };
+      $('button', chip).onclick = () => { sel.delete(p.id); drawChips(); draw(shown, results.dataset.label); onChange([...sel.values()]); input.focus(); };
       to.insertBefore(chip, input);
     });
   };
   const run = () => {
-    const q = input.value.trim(), my = ++token;
-    if (!q) { draw(knownPeople(exclude), 'Suggested'); return; }
-    results.innerHTML = '<div class="hint"><div class="spinner" style="margin:0 auto"></div></div>';
+    const q = input.value.trim(), my = ++token; cursor = 0;
     clearTimeout(timer);
+    if (!q) { draw(knownPeople(exclude), 'Suggested'); return; }
     timer = setTimeout(async () => {
       try { const r = (await searchUsers(q)).filter(p => !exclude.includes(p.id)); if (my === token) draw(r, 'People'); }
       catch (e) { if (my === token) results.innerHTML = `<div class="hint">${esc(friendly(e))}</div>`; }
-    }, 220);
+    }, 180);
   };
+  initial.forEach(p => sel.set(p.id, p));
+  if (initial.length) { drawChips(); onChange([...sel.values()]); }
   input.oninput = run;
   input.onkeydown = e => {
-    if (e.key === 'Backspace' && !input.value && sel.size) { const last = [...sel.keys()].pop(); sel.delete(last); drawChips(); run(); onChange([...sel.values()]); }
-    if (e.key === 'Enter') { e.preventDefault(); const first = $('.person', results); if (first && input.value.trim()) first.click(); }
+    if (e.key === 'Backspace' && !input.value && sel.size) { sel.delete([...sel.keys()].pop()); drawChips(); draw(shown, results.dataset.label); onChange([...sel.values()]); }
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); if (!shown.length) return; cursor = (cursor + (e.key === 'ArrowDown' ? 1 : -1) + shown.length) % shown.length; $$('.person', results).forEach((el, i) => el.classList.toggle('cur', i === cursor)); $$('.person', results)[cursor]?.scrollIntoView({ block: 'nearest' }); }
+    else if (e.key === 'Enter') { e.preventDefault(); if (input.value.trim() && shown[cursor]) pick(shown[cursor]); else if (!input.value.trim() && sel.size) $('.sheet .r')?.click(); }
   };
   run();
-  setTimeout(() => input.focus(), 40);
+  input.focus();
   return sel;
 }
 
-function openCompose() {
+function openCompose(prefill) {
   const s = openSheet({
-    title: 'New Message', right: 'Create',
-    body: `<div class="to"><label>To:</label><input placeholder="" spellcheck="false" autocomplete="off"></div>
+    title: 'New Message', right: 'Message',
+    body: `<div class="to"><label>To:</label><input spellcheck="false" autocomplete="off" placeholder="Name or @username"></div>
       <div class="gname hidden"><label>Name:</label><input placeholder="Group Name (optional)" maxlength="60"></div>
       <div class="results"></div>`,
     onRight: () => create()
@@ -898,70 +974,84 @@ function openCompose() {
   const r = $('.r', s), gname = $('.gname', s);
   r.disabled = true;
   const sel = peoplePicker(s, {
+    initial: prefill ? [prefill] : [],
     onChange: list => { r.disabled = !list.length; gname.classList.toggle('hidden', list.length < 2); r.textContent = list.length > 1 ? 'Create' : 'Message'; }
   });
-  r.textContent = 'Message';
+  $('input', gname).onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); create(); } };
   async function create() {
-    const people = [...sel.values()]; if (!people.length) return;
-    r.disabled = true;
+    const people = [...sel.values()]; if (!people.length || r.dataset.busy) return;
+    r.disabled = true; r.dataset.busy = '1';
     try {
       if (people.length === 1) await openDirect(people[0]);
       else await createGroup($('input', gname).value.trim(), people);
       closeSheet();
-    } catch (e) { toast(friendly(e)); r.disabled = false; }
+    } catch (e) { toast(friendly(e)); r.disabled = false; delete r.dataset.busy; }
   }
 }
 
 async function openDirect(p) {
   const me = uid(), id = 'd_' + [me, p.id].sort().join('_');
-  const ref = db.collection('chats').doc(id);
   let exists = S.chats.has(id);
-  if (!exists) { try { exists = (await ref.get()).exists; } catch (e) { exists = false; } }
+  if (!exists) { try { exists = (await rdb.ref(`chats/${id}/type`).once('value')).exists(); } catch (e) { exists = false; } }
   if (!exists) {
-    await ref.set({ type: 'direct', members: [me, p.id].sort(), names: { [me]: myName(), [p.id]: p.name }, createdBy: me, createdAt: FV.serverTimestamp(), updatedAt: FV.serverTimestamp(), lastRead: {}, typing: {} });
+    await rdb.ref().update({
+      [`chats/${id}`]: { type: 'direct', members: { [me]: true, [p.id]: true }, names: { [me]: myName(), [p.id]: p.name }, createdBy: me, createdAt: SV, updatedAt: SV },
+      [`userChats/${me}/${id}`]: true,
+      [`userChats/${p.id}/${id}`]: true
+    });
+  } else if (!S.chats.has(id)) {
+    await rdb.ref(`userChats/${me}/${id}`).set(true);
   }
+  watchChat(id);
   openChat(id);
 }
 
 async function createGroup(name, people) {
-  const me = uid(), ref = db.collection('chats').doc();
-  const names = { [me]: myName() }; people.forEach(p => names[p.id] = p.name);
+  const me = uid(), id = rdb.ref('chats').push().key;
+  const names = { [me]: myName() }, mem = { [me]: true };
+  people.forEach(p => { names[p.id] = p.name; mem[p.id] = true; });
   const text = name ? `${myName()} created “${name}”` : `${myName()} created the group`;
-  await ref.set({ type: 'group', name, members: [me, ...people.map(p => p.id)], admins: [me], names, createdBy: me, createdAt: FV.serverTimestamp(), updatedAt: FV.serverTimestamp(), lastMessage: { text, senderId: me, senderName: myName(), system: true }, lastRead: { [me]: FV.serverTimestamp() }, typing: {} });
-  await ref.collection('messages').add({ type: 'system', text, senderId: me, senderName: myName(), createdAt: FV.serverTimestamp() });
-  openChat(ref.id);
+  const upd = {
+    [`chats/${id}`]: { type: 'group', name, members: mem, admins: { [me]: true }, names, createdBy: me, createdAt: SV, updatedAt: SV, lastMessage: { text, senderId: me, senderName: myName(), system: true }, lastRead: { [me]: SV } },
+    [`messages/${id}/${rdb.ref('messages/' + id).push().key}`]: { type: 'system', text, senderId: me, senderName: myName(), createdAt: SV }
+  };
+  keys(mem).forEach(m => upd[`userChats/${m}/${id}`] = true);
+  await rdb.ref().update(upd);
+  watchChat(id);
+  openChat(id);
 }
 
 function openInfo() {
   const c = S.chats.get(S.activeId); if (!c) return;
   if (c.type !== 'group') return openDirectInfo(c);
-  const me = uid(), admin = (c.admins || []).includes(me);
+  const me = uid(), admin = !!c.admins?.[me], mem = members(c).sort((a, b) => (b === me) - (a === me) || String(c.names?.[a]).localeCompare(String(c.names?.[b])));
   const s = openSheet({
     title: 'Details', left: 'Done',
-    body: `<div class="hero">${chatAvatar(c, 76)}<input class="title" value="${esc(c.name || '')}" placeholder="${esc(chatTitle(c))}" maxlength="60" title="Rename group"><div class="sub">${c.members.length} ${c.members.length === 1 ? 'member' : 'members'}</div></div>
+    body: `<div class="hero">${chatAvatar(c, 76)}<input class="title" value="${esc(c.name || '')}" placeholder="${esc(chatTitle(c))}" maxlength="60" title="Rename group"><div class="sub">${mem.length} ${mem.length === 1 ? 'member' : 'members'}</div></div>
       <div class="section">Members</div>
       <div class="group-list">
         <button class="cell strong" data-add>${icon('addUser')}<span class="grow">Add People</span></button>
-        ${c.members.map(id => `<div class="cell" data-id="${esc(id)}">${avatarHTML(c.names?.[id], 32)}<div class="grow"><div>${esc(id === me ? myName() + ' (You)' : c.names?.[id] || 'Unknown')}</div><div class="s" style="font-size:13px;color:var(--fg2)" data-email="${esc(id)}"></div></div>${(c.admins || []).includes(id) ? '<span class="tag">Admin</span>' : ''}${admin && id !== me ? `<button class="small-btn" data-remove="${esc(id)}">Remove</button>` : ''}</div>`).join('')}
+        ${mem.map(id => `<div class="cell">${avatarHTML(c.names?.[id], 32, id !== me && online(id))}<div class="grow"><div>${esc(id === me ? myName() + ' (You)' : c.names?.[id] || 'Unknown')}</div><div class="s" data-h="${esc(id)}"></div></div>${c.admins?.[id] ? '<span class="tag">Admin</span>' : ''}${id !== me ? `<button class="small-btn" data-msg="${esc(id)}">Message</button>` : ''}${admin && id !== me ? `<button class="small-btn" data-remove="${esc(id)}">Remove</button>` : ''}</div>`).join('')}
       </div>
       <div class="pad"></div>
       <div class="group-list"><button class="cell" data-leave>${icon('leave')}<span class="grow">Leave Group</span></button></div>
       <div class="pad"></div>`
   });
-  c.members.forEach(async id => { const u = await getUser(id); const el = $(`[data-email="${CSS.escape(id)}"]`, s); if (el) el.textContent = u.email || ''; });
+  mem.forEach(async id => { const u = await getUser(id); const el = $(`[data-h="${CSS.escape(id)}"]`, s); if (el && u.handle) el.textContent = '@' + u.handle; });
   const ti = $('input.title', s);
-  const rename = async () => {
-    const v = ti.value.trim(); const cur = S.chats.get(c.id); if (!cur || v === (cur.name || '')) return;
-    try { await postSystem(c.id, v ? `${myName()} named the group “${v}”` : `${myName()} removed the group name`, { name: v }); } catch (e) { toast(friendly(e)); }
-  };
   ti.onkeydown = e => { if (e.key === 'Enter') ti.blur(); };
-  ti.onblur = rename;
+  ti.onblur = () => {
+    const v = ti.value.trim(), cur = S.chats.get(c.id); if (!cur || v === (cur.name || '')) return;
+    rdb.ref().update({ ...systemUpdate(c.id, v ? `${myName()} named the group “${v}”` : `${myName()} removed the group name`), [`chats/${c.id}/name`]: v }).catch(e => toast(friendly(e)));
+  };
   $('[data-add]', s).onclick = () => openAddPeople(c.id);
+  $$('[data-msg]', s).forEach(b => b.onclick = async () => { const id = b.dataset.msg; closeSheet(); try { await openDirect({ id, name: c.names?.[id] || 'Unknown' }); } catch (e) { toast(friendly(e)); } });
   $$('[data-remove]', s).forEach(b => b.onclick = () => {
     const id = b.dataset.remove, n = c.names?.[id] || 'this person';
-    confirmSheet(`Remove ${firstName(n)}?`, `${n} will no longer receive messages from this group.`, 'Remove', async () => {
-      await postSystem(c.id, `${myName()} removed ${n}`, { members: FV.arrayRemove(id), admins: FV.arrayRemove(id) });
-    });
+    confirmSheet(`Remove ${firstName(n)}?`, `${n} will no longer receive messages from this group.`, 'Remove', () => rdb.ref().update({
+      ...systemUpdate(c.id, `${myName()} removed ${n}`),
+      [`chats/${c.id}/members/${id}`]: null, [`chats/${c.id}/admins/${id}`]: null, [`chats/${c.id}/typing/${id}`]: null, [`userChats/${id}/${c.id}`]: null
+    }));
   });
   $('[data-leave]', s).onclick = () => confirmSheet('Leave Group?', 'You won’t receive messages from this group unless someone adds you back.', 'Leave', () => leaveGroup(c.id));
 }
@@ -969,59 +1059,62 @@ function openInfo() {
 async function leaveGroup(id) {
   const c = S.chats.get(id); if (!c) return;
   const me = uid(), rest = others(c);
-  const extra = { members: FV.arrayRemove(me), admins: FV.arrayRemove(me) };
-  const admins = (c.admins || []).filter(a => a !== me);
-  if (!admins.length && rest.length) extra.admins = [rest[0]];
+  const upd = {
+    ...systemUpdate(id, `${myName()} left the group`),
+    [`chats/${id}/members/${me}`]: null, [`chats/${id}/admins/${me}`]: null, [`chats/${id}/typing/${me}`]: null, [`chats/${id}/lastRead/${me}`]: null,
+    [`userChats/${me}/${id}`]: null
+  };
+  if (!keys(c.admins).some(a => a !== me) && rest.length) upd[`chats/${id}/admins/${rest[0]}`] = true;
   closeChat();
-  await postSystem(id, `${myName()} left the group`, { ['typing.' + me]: 0 });
-  await db.collection('chats').doc(id).update(extra);
+  await rdb.ref().update(upd);
 }
 
 function openAddPeople(chatId) {
   const c = S.chats.get(chatId); if (!c) return;
   const s = openSheet({
     title: 'Add People', right: 'Add',
-    body: `<div class="to"><label>Add:</label><input spellcheck="false" autocomplete="off"></div><div class="results"></div>`,
+    body: `<div class="to"><label>Add:</label><input spellcheck="false" autocomplete="off" placeholder="Name or @username"></div><div class="results"></div>`,
     onRight: async () => {
       const people = [...sel.values()]; if (!people.length) return;
       r.disabled = true;
-      const upd = { members: FV.arrayUnion(...people.map(p => p.id)) };
-      people.forEach(p => upd['names.' + p.id] = p.name);
-      try {
-        await db.collection('chats').doc(chatId).update(upd);
-        await postSystem(chatId, `${myName()} added ${people.map(p => p.name).join(', ')}`);
-        closeSheet();
-      } catch (e) { toast(friendly(e)); r.disabled = false; }
+      const upd = systemUpdate(chatId, `${myName()} added ${people.map(p => p.name).join(', ')}`);
+      people.forEach(p => { upd[`chats/${chatId}/members/${p.id}`] = true; upd[`chats/${chatId}/names/${p.id}`] = p.name; upd[`userChats/${p.id}/${chatId}`] = true; });
+      try { await rdb.ref().update(upd); closeSheet(); } catch (e) { toast(friendly(e)); r.disabled = false; }
     }
   });
   const r = $('.r', s); r.disabled = true;
-  const sel = peoplePicker(s, { exclude: c.members, onChange: l => r.disabled = !l.length });
+  const sel = peoplePicker(s, { exclude: members(c), onChange: l => r.disabled = !l.length });
 }
 
-async function openDirectInfo(c) {
-  const id = others(c)[0], name = c.names?.[id] || 'Unknown';
+function openDirectInfo(c) {
+  const id = others(c)[0], name = c.names?.[id] || 'Unknown', st = S.status.get(id);
   const s = openSheet({
     title: 'Details', left: 'Done',
-    body: `<div class="hero">${avatarHTML(name, 76)}<div class="title">${esc(name)}</div><div class="sub" data-email></div></div>
+    body: `<div class="hero">${avatarHTML(name, 76, online(id))}<div class="title">${esc(name)}</div><div class="sub" data-h></div><div class="sub">${esc(st?.online ? 'Active now' : st?.lastSeen ? ago(st.lastSeen) : '')}</div></div>
       <div class="group-list"><button class="cell" data-group>${icon('users')}<span class="grow">Start a Group with ${esc(firstName(name))}</span></button></div><div class="pad"></div>`
   });
-  getUser(id).then(u => { const el = $('[data-email]', s); if (el) el.textContent = u.email || ''; });
-  $('[data-group]', s).onclick = () => {
-    openCompose();
-    setTimeout(() => { const sh = $('.scrim'); const inp = $('.to input', sh); if (!inp) return; inp.value = name; inp.dispatchEvent(new Event('input')); }, 60);
-  };
+  getUser(id).then(u => { const el = $('[data-h]', s); if (el && u.handle) el.textContent = '@' + u.handle; });
+  $('[data-group]', s).onclick = () => openCompose({ id, name });
 }
 
 function openSettings() {
   const pref = localStorage.getItem('a1-theme') || 'system';
   const s = openSheet({
     title: 'Settings', left: 'Done',
-    body: `<div class="hero">${avatarHTML(myName(), 76)}<input class="title" value="${esc(myName())}" maxlength="40" title="Edit name"><div class="sub">${esc(S.user?.email || '')}</div></div>
+    body: `<div class="hero"><div data-av>${avatarHTML(myName(), 76)}</div><input class="title" value="${esc(myName())}" maxlength="40" title="Edit name"><div class="sub">@${esc(S.profile?.handle || '')}</div></div>
       <div class="section">Appearance</div>
       <div class="seg">${['system', 'light', 'dark'].map(v => `<button data-t="${v}" class="${v === pref ? 'on' : ''}">${v[0].toUpperCase() + v.slice(1)}</button>`).join('')}</div>
+      <div class="section">Shortcuts</div>
+      <div class="group-list keys">
+        <div class="cell"><span class="grow">New message</span><kbd>${ALT}N</kbd></div>
+        <div class="cell"><span class="grow">Search conversations</span><kbd>${MOD}K</kbd></div>
+        <div class="cell"><span class="grow">Previous / next conversation</span><kbd>${ALT}↑</kbd><kbd>${ALT}↓</kbd></div>
+        <div class="cell"><span class="grow">Edit last message</span><kbd>↑</kbd></div>
+        <div class="cell"><span class="grow">Conversation details</span><kbd>${MOD}I</kbd></div>
+      </div>
       <div class="pad"></div>
       <div class="group-list"><button class="cell" data-out>${icon('leave')}<span class="grow">Sign Out</span></button></div>
-      <div class="pad"></div>`
+      <div class="foot">A1 uses an anonymous account stored in this browser. Signing out or clearing site data ends access to this account.</div>`
   });
   const ni = $('input.title', s);
   ni.onkeydown = e => { if (e.key === 'Enter') ni.blur(); };
@@ -1029,30 +1122,37 @@ function openSettings() {
     const v = ni.value.trim();
     if (!v) { ni.value = myName(); return; }
     if (v === myName()) return;
-    try {
-      await db.collection('users').doc(uid()).update({ name: v, nameLower: v.toLowerCase() });
-      S.user.updateProfile({ displayName: v }).catch(() => { });
-      const chats = [...S.chats.values()];
-      for (let i = 0; i < chats.length; i += 400) {
-        const b = db.batch();
-        chats.slice(i, i + 400).forEach(c => b.update(db.collection('chats').doc(c.id), { ['names.' + uid()]: v }));
-        await b.commit();
-      }
-      $('.hero .avatar', s).outerHTML = avatarHTML(v, 76);
-      toast('Name updated');
-    } catch (e) { toast(friendly(e)); }
+    const me = uid(), upd = { [`users/${me}/name`]: v, [`users/${me}/nameLower`]: v.toLowerCase() };
+    S.chats.forEach(c => upd[`chats/${c.id}/names/${me}`] = v);
+    try { await rdb.ref().update(upd); const av = $('[data-av]', s); if (av) av.innerHTML = avatarHTML(v, 76); toast('Name updated'); } catch (e) { toast(friendly(e)); }
   };
   $$('.seg button', s).forEach(b => b.onclick = () => {
     localStorage.setItem('a1-theme', b.dataset.t); applyTheme();
     $$('.seg button', s).forEach(x => x.classList.toggle('on', x === b));
   });
-  $('[data-out]', s).onclick = () => { closeSheet(); auth.signOut(); };
+  $('[data-out]', s).onclick = () => confirmSheet('Sign Out?', 'A1 accounts are anonymous, so you won’t be able to sign back in to this account. Your conversations will stay with the people you talked to.', 'Sign Out', async () => {
+    const ref = rdb.ref('status/' + uid());
+    try { await ref.onDisconnect().cancel(); await ref.set({ online: false, lastSeen: SV }); } catch (e) { }
+    await auth.signOut();
+  });
+}
+
+function moveChat(dir) {
+  const list = $$('.list .item'); if (!list.length) return;
+  const i = list.findIndex(el => el.dataset.id === S.activeId);
+  const n = i < 0 ? 0 : Math.max(0, Math.min(list.length - 1, i + dir));
+  openChat(list[n].dataset.id);
+  list[n].scrollIntoView({ block: 'nearest' });
 }
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { if ($('.menu')) { closeMenu(); return; } if ($('.scrim')) { closeSheet(); return; } }
-  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k' && S.user) { e.preventDefault(); $('.search input')?.focus(); }
-  if ((e.metaKey || e.ctrlKey) && e.altKey && e.key.toLowerCase() === 'n' && S.user) { e.preventDefault(); openCompose(); }
+  if (!S.profile || !$('.side')) return;
+  const mod = e.metaKey || e.ctrlKey;
+  if (mod && e.code === 'KeyK') { e.preventDefault(); closeSheet(); $('.search input')?.focus(); }
+  else if (e.altKey && !mod && e.code === 'KeyN') { e.preventDefault(); openCompose(); }
+  else if (mod && e.code === 'KeyI' && S.activeId) { e.preventDefault(); openInfo(); }
+  else if (e.altKey && !$('.scrim') && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) { e.preventDefault(); moveChat(e.key === 'ArrowUp' ? -1 : 1); }
 });
 </script>
 </body>
